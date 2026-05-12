@@ -6,6 +6,7 @@ TagManager:
   tags:
   - object
   - Decorations
+  - ground
   layers:
   - Default
   - TransparentFX
