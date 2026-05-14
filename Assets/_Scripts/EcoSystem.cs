@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class EcoSystem : MonoBehaviour
@@ -12,6 +12,10 @@ public class EcoSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ecoSystemUI;
     [SerializeField] private TextMeshProUGUI pmLevelUI;
     [SerializeField] private Slider pmLevelSlider;
+
+    [Header("Effects")]
+    [SerializeField] private ParticleSystem pollutionEffect;
+    private float pollutionChangeTimer = 0f;
 
     private Image sliderFillImage;
 
@@ -47,11 +51,13 @@ public class EcoSystem : MonoBehaviour
     {
         PMLevel = Mathf.Clamp(PMLevel + amount, 0, 250);
         UpdateUI();
+
+
     }
 
     public void UpdateUI()
     {
-        if (ecoSystemUI != null) ecoSystemUI.text =  EcoPoints.ToString();
+        if (ecoSystemUI != null) ecoSystemUI.text = EcoPoints.ToString();
         if (pmLevelUI != null) pmLevelUI.text = $"PM Level: {PMLevel:F1}%";
 
         if (pmLevelSlider != null)
@@ -65,4 +71,38 @@ public class EcoSystem : MonoBehaviour
             }
         }
     }
+
+    [System.Obsolete]
+    private void LateUpdate()
+    {
+        pollutionChangeTimer += Time.deltaTime;
+        if (pollutionChangeTimer >= 5f)
+        {
+            pollutionChangeTimer = 0f;
+            if (PMLevel > 0)
+            {
+                if (pollutionEffect != null)
+                {
+                    pollutionEffect.startLifetime = PMLevel / 50f;
+                    var emission = pollutionEffect.emission;
+                    emission.rateOverTime = PMLevel ;
+                }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (pollutionEffect != null)
+        {
+            if (pollutionEffect.particleCount > 99)
+                pollutionEffect.Stop();
+            else
+
+
+                pollutionEffect.Play();
+
+        }
+    }
+
 }
