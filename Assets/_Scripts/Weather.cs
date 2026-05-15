@@ -17,7 +17,7 @@ public class Weather : MonoBehaviour
     {
         if (instance == null) instance = this;
 
-        timeUntilNextRain = Random.Range(50f, 200f);
+        timeUntilNextRain = Random.Range(900f, 3600f);
         timer = 0f;
 
         if (rainParticleSystem != null)
@@ -33,7 +33,7 @@ public class Weather : MonoBehaviour
             if (timer >= timeUntilNextRain)
             {
                 StartRain();
-                currentRainDuration = Random.Range(60f, 150f);
+                currentRainDuration = Random.Range(100f, 250f);
                 timer = 0f;
             }
         }
@@ -46,7 +46,7 @@ public class Weather : MonoBehaviour
             if (timer >= currentRainDuration)
             {
                 StopRain();
-                timeUntilNextRain = Random.Range(50f, 200f);
+                timeUntilNextRain = Random.Range(900f, 3600f);
                 timer = 0f; // Reset timer to count the waiting period
             }
         }
