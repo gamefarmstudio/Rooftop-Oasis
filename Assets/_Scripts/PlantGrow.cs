@@ -36,10 +36,16 @@ public class PlantGrow : MonoBehaviour
         {
             plantInfo.growthSpeed = normalGrowthSpeed * 0.25f;
         }
+        else if (DayNightCycle.instance != null && (DayNightCycle.instance.isNightTime_))
+        {
+            plantInfo.growthSpeed = normalGrowthSpeed / 1.25f;
+        }
         else
         {
             plantInfo.growthSpeed = normalGrowthSpeed;
         }
+       
+
     }
 
     private void GrowToNextPrefab()

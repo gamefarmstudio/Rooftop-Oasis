@@ -17,8 +17,11 @@ public class DayNightCycle : MonoBehaviour
     [Tooltip("Drag the GameObjects holding your street lights and traffic lights here.")]
     public Light[] cityLightComponents; // Optional: If you want to directly control the Light components
 
+
+    public static DayNightCycle instance;
     // We store the starting intensity so the sun doesn't get too bright
     private float defaultSunIntensity;
+    [HideInInspector] public bool isNightTime_ = false;
 
     // Track if lights are on to prevent toggling them every single frame
     private bool areLightsOn = true;
@@ -44,6 +47,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
+        isNightTime_ = timeOfDay >= 0.48f && timeOfDay <= 0.98f;
         if (sunLight == null) return;
         CheckCityLights();
         // 1. Advance the time 
